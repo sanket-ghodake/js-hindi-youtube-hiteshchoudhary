@@ -1,18 +1,21 @@
-// const coding = ["js", "ruby", "java", "python", "cpp"]
+const coding = ["js", "ruby", "java", "python", "cpp"]
 
 
-// const values = coding.forEach( (item) => {
-//     //console.log(item);
-//     return item
-// } )
+const values = coding.forEach( (item) => {
+    //console.log(item);
+    return item
+} )
 
-// console.log(values);
+//console.log(values); 
+// does not print anything - foreach returns nothing/ undefined 
 
 const myNums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 // const newNums = myNums.filter( (num) => {
 //     return num > 4
 // } )
+// console.log(newNums);
+// [ 5, 6, 7, 8, 9, 10 ]
 
 // const newNums = []
 
@@ -23,7 +26,7 @@ const myNums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 // } )
 
 // console.log(newNums);
-
+//[ 5, 6, 7, 8, 9, 10 ]
 
 const books = [
     { title: 'Book One', genre: 'Fiction', publish: 1981, edition: 2004 },
@@ -37,9 +40,38 @@ const books = [
     { title: 'Book Nine', genre: 'Non-Fiction', publish: 1981, edition: 1989 },
   ];
 
-  let userBooks = books.filter( (bk) => bk.genre === 'History')
+let userBooks = books.filter( (bk) => bk.genre === 'History')
+//console.log(userBooks);
+/*
+[
+  {
+    title: 'Book Three',
+    genre: 'History',
+    publish: 1999,
+    edition: 2007
+  },
+  {
+    title: 'Book Seven',
+    genre: 'History',
+    publish: 1986,
+    edition: 1996
+  }
+]
+*/
 
-  userBooks = books.filter( (bk) => { 
-    return bk.publish >= 1995 && bk.genre === "History"
+
+userBooks = books.filter( (bk) => { 
+  return bk.publish >= 1995 && bk.genre === "History"
 })
-  console.log(userBooks);
+//console.log(userBooks);
+/*
+[
+  {
+    title: 'Book Three',
+    genre: 'History',
+    publish: 1999,
+    edition: 2007
+  }
+]
+*/
+

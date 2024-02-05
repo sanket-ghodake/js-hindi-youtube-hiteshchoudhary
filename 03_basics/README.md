@@ -1,3 +1,465 @@
+# A function can include the `return` statement but it does not have to. In the case that the function doesn't have a `return` statement, when you call it, the function processes the inner code but the returned value is `undefined`.
+
+# In JavaScript, a function can only return a single value.
+
+# In JavaScript, primitive data types are passed by value, and objects (including functions) are passed by reference.
+
+# Functions are objects in JS
+
+In JavaScript, functions are indeed objects. More specifically, they are instances of the `Function` object type. This means that functions can be treated like objects: they can be assigned to variables, passed as arguments to other functions, returned from other functions, and have methods and properties.
+
+Here are a few important points to understand about functions being objects in JavaScript:
+
+1. **Functions as Objects:**
+   Functions in JavaScript are first-class objects, which means they can be:
+   - Assigned to variables
+   - Passed as arguments to other functions
+   - Returned as values from other functions
+   - Stored in data structures like arrays and objects
+
+   ```javascript
+   const add = function(a, b) {
+       return a + b;
+   };
+
+   console.log(add(2, 3)); // Output: 5
+   ```
+
+2. **Functions Have Properties:**
+   Functions in JavaScript are objects, and like any object, they can have properties and methods.
+
+   ```javascript
+   function greet(name) {
+       console.log(`Hello, ${name}!`);
+   }
+
+   console.log(greet.length); // Output: 1 (number of parameters expected by the function)
+   ```
+
+3. **Functions Have Methods:**
+   Functions in JavaScript have methods, such as `call()`, `apply()`, and `bind()`, which are defined in the `Function.prototype` object. These methods allow you to manipulate the context (`this` value) of the function and invoke the function with specific arguments.
+
+   ```javascript
+   function greet(name) {
+       console.log(`Hello, ${name}!`);
+   }
+
+   const greetInSpanish = greet.bind(null, 'Hola');
+   greetInSpanish(); // Output: Hello, Hola!
+   ```
+
+Because functions are objects in JavaScript, they provide a lot of flexibility and power when it comes to creating reusable and modular code. Understanding functions as objects is a fundamental concept in JavaScript programming.
+
+
+
+
+# In JavaScript, when you assign a function to a variable, you are actually creating a reference to the function, not a copy of the function. JavaScript handles functions as objects, and objects are passed by reference in JavaScript. So, when you assign a function to a variable, that variable holds a reference to the original function object. 
+
+Here's an example to illustrate this:
+
+```javascript
+function sayHello() {
+    console.log('Hello!');
+}
+
+const greetingFunction = sayHello; // Assigning the function to a variable
+
+sayHello(); // Output: Hello!
+greetingFunction(); // Output: Hello!
+```
+
+In the code above, `greetingFunction` is assigned the reference to the `sayHello` function. When `greetingFunction()` is called, it executes the same function as `sayHello()`, because both variables reference the same function object.
+
+This behavior is consistent with the way objects (including functions) work in JavaScript. When you assign an object (or a function) to a variable, that variable holds a reference to the original object (or function), not a new copy of it. Therefore, any changes made to the function through one variable will be reflected when accessing the function through another variable holding the same reference.
+
+# Function Syntax
+
+In JavaScript, there are two main ways to declare a function. One of which is to use the  `function`  keyword.
+
+## Basic Syntax
+
+The syntax is:
+
+```javascript
+function f(a, b) {
+    const sum = a + b;
+    return sum;
+}
+console.log(f(3, 4)); // 7
+```
+
+In this example,  `f`  is the name of the function.  `(a, b)`  are the arguments. You can write any logic in the body and finally  `return`  a result. You are allowed to return nothing, and it will instead implicitly return  `undefined`.
+
+## Anonymous Function
+
+You can optionally exclude the name of the function after the  `function`  keyword.
+
+```javascript
+var f = function(a, b) {
+    const sum = a + b;
+    return sum;
+}
+console.log(f(3, 4)); // 7
+```
+
+## Immediately Invoked Function Expression (IIFE)
+
+You can create a function and immediately execute it in Javascript.
+
+```javascript
+const result = (function(a, b) {
+    const sum = a + b;
+    return sum;
+})(3, 4);
+console.log(result); // 7
+```
+
+Why would you write code like this? It gives you the opportunity to  _**encapsulate**_  a variable within a new  _**scope**_. For example, another developer can immediately see that  `sum`  can't be used anywhere outside the function body.
+
+## Functions Within Functions
+
+A powerful feature of JavaScript is you can actually create functions within other functions and even return them!
+
+```javascript
+function createFunction() {
+    function f(a, b) {
+        const sum = a + b;
+        return sum;
+    }
+    return f;
+}
+const f = createFunction();
+console.log(f(3, 4)); // 7
+```
+
+In this example,  `createFunction()`  returns a new function. Then that function can be used as normal.
+
+## Function Hoisting
+
+JavaScript has a feature called  _**hoisting**_  where a function can sometimes be used before it is initialized. You can only do this if you declare functions with the  `function`  syntax.
+
+```javascript
+function createFunction() {
+    return f;
+    function f(a, b) {
+        const sum = a + b;
+        return sum;
+    }
+}
+const f = createFunction();
+console.log(f(3, 4)); // 7
+```
+
+In this example, the function is returned before it is initialized. Although it is valid syntax, it is sometimes considered bad practice as it can reduce readability.
+
+## Closures
+
+An important topic in JavaScript is the concept of  _**closures**_. When a function is created, it has access to a reference to all the variables declared around it, also known as it's  _**lexical environment**_. The combination of the function and its enviroment is called a  _**closure**_. This is a powerful and often used feature of the language.
+
+```javascript
+function createAdder(a) {
+    function f(b) {
+        const sum = a + b;
+        return sum;
+    }
+    return f;
+}
+const f = createAdder(3);
+console.log(f(4)); // 7
+```
+
+In this example,  `createAdder`  passes the first parameter  `a`  and the inner function has access to it. This way,  `createAdder`  serves as a factory of new functions, with each returned function having different behavior.
+
+## Arrow Syntax
+
+The other common way to declare functions is with arrow syntax. In fact, on many projects, it is the preferred syntax.
+
+##### Basic Syntax
+
+```javascript
+const f = (a, b) => {
+    const sum = a + b;
+    return sum;
+};
+console.log(f(3, 4)); // 7
+```
+
+In this example,  `f`  is the name of the function.  `(a, b)`  are the arguments. You can write any logic in the body and finally  `return`  a result. You are allowed to return nothing, and it will instead implicitly return  `undefined`.
+
+## Omit Return
+
+If you can write the code in a single line, you can omit the  `return`  keyword. This can result in very short code.
+
+```javascript
+const f = (a, b) => a + b;
+console.log(f(3, 4)); // 7
+```
+
+### Differences
+
+There are 3 major differences between arrow syntax and function syntax.
+
+1.  More minimalistic syntax. This is especially true for anonymous functions and single-line functions. For this reason, this way is generally preferred when passing short anonymous functions to other functions.
+2.  No automatic hoisting. You are only allowed to use the function after it was declared. This is generally considered a good thing for readability.
+3.  Can't be bound to  `this`,  `super`, and  `arguments`  or be used as a constructor. These are all complex topics in themselves but the basic takeaway should be that arrow functions are simpler in their feature set. You can read more about these differences  [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions).
+
+The choice of arrow syntax versus function syntax is primarily down to preference and your project's stylistic standards.
+
+## Rest Arguments
+
+You can use  _**rest**_  syntax to access all the passed arguments as an array. This isn't necessary for this problem, but it will be a critical concept for many problems. You can read more about  `...`  syntax  [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax).
+
+##### Basic Syntax
+
+The syntax is:
+
+```javascript
+function f(...args) {
+    const sum = args[0] + args[1];
+    return sum;
+}
+console.log(f(3, 4)); // 7
+```
+
+In this example the variable  `args`  is  `[3, 4]`.
+
+### Why
+
+It may not be immediately obvious why you would use this syntax because you can always just pass an array and get the same result.
+
+The primary use-case is for creating generic factory functions that accept any function as input and return a new version of the function with some specific modification.
+
+By the way, a function that accepts a function and/or returns a function is called a  _**higher-order function**_, and they are very common in JavaScript.
+
+For example, you can create a logged function factory:
+
+```javascript
+function log(inputFunction) {
+    return function(...args) {
+        console.log("Input", args);
+        const result = inputFunction(...args);
+        console.log("Output", result);
+        return result;
+    }
+}
+const f = log((a, b) => a + b);
+f(1, 2); // Logs: Input [1, 2] Output 3
+```
+
+# Destructuring assignment
+
+The  **destructuring assignment**  syntax is a JavaScript expression that makes it possible to unpack values from arrays, or properties from objects, into distinct variables.
+
+```js
+let a, b, rest;
+[a, b] = [10, 20];
+
+console.log(a);
+// Expected output: 10
+
+console.log(b);
+// Expected output: 20
+
+[a, b, ...rest] = [10, 20, 30, 40, 50];
+
+console.log(rest);
+// Expected output: Array [30, 40, 50]
+```
+
+## Syntax 
+
+```js
+const [a, b] = array;
+const [a, , b] = array;
+const [a = aDefault, b] = array;
+const [a, b, ...rest] = array;
+const [a, , b, ...rest] = array;
+const [a, b, ...{ pop, push }] = array;
+const [a, b, ...[c, d]] = array;
+
+const { a, b } = obj;
+const { a: a1, b: b1 } = obj;
+const { a: a1 = aDefault, b = bDefault } = obj;
+const { a, b, ...rest } = obj;
+const { a: a1, b: b1, ...rest } = obj;
+const { [key]: a } = obj;
+
+let a, b, a1, b1, c, d, rest, pop, push;
+[a, b] = array;
+[a, , b] = array;
+[a = aDefault, b] = array;
+[a, b, ...rest] = array;
+[a, , b, ...rest] = array;
+[a, b, ...{ pop, push }] = array;
+[a, b, ...[c, d]] = array;
+
+({ a, b } = obj); // parentheses are required
+({ a: a1, b: b1 } = obj);
+({ a: a1 = aDefault, b = bDefault } = obj);
+({ a, b, ...rest } = obj);
+({ a: a1, b: b1, ...rest } = obj);
+
+```
+# Default parameters
+
+**Default function parameters**  allow named parameters to be initialized with default values if no value or  `undefined`  is passed.
+
+```js
+function multiply(a, b = 1) {
+  return a * b;
+}
+
+console.log(multiply(5, 2));
+// Expected output: 10
+
+console.log(multiply(5));
+// Expected output: 5
+```
+
+## [Syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters#syntax)
+
+
+```js
+function fnName(param1 = defaultValue1, /* …, */ paramN = defaultValueN) {
+  // …
+}
+
+```
+
+## [Description](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters#description)
+
+In JavaScript, function parameters default to  [`undefined`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined). However, it's often useful to set a different default value. This is where default parameters can help.
+
+In the following example, if no value is provided for  `b`  when  `multiply`  is called,  `b`'s value would be  `undefined`  when evaluating  `a * b`  and  `multiply`  would return  `NaN`.
+
+
+```js
+function multiply(a, b) {
+  return a * b;
+}
+
+multiply(5, 2); // 10
+multiply(5); // NaN !
+
+```
+
+In the past, the general strategy for setting defaults was to test parameter values in the function body and assign a value if they are  `undefined`. In the following example,  `b`  is set to  `1`  if  `multiply`  is called with only one argument:
+
+
+
+```js
+function multiply(a, b) {
+  b = typeof b !== "undefined" ? b : 1;
+  return a * b;
+}
+
+multiply(5, 2); // 10
+multiply(5); // 5
+
+```
+
+With default parameters, checks in the function body are no longer necessary. Now, you can assign  `1`  as the default value for  `b`  in the function head:
+
+
+```js
+function multiply(a, b = 1) {
+  return a * b;
+}
+
+multiply(5, 2); // 10
+multiply(5); // 5
+multiply(5, undefined); // 5
+
+```
+
+Parameters are still set left-to-right, overwriting default parameters even if there are later parameters without defaults.
+
+
+
+```js
+function f(x = 1, y) {
+  return [x, y];
+}
+
+f(); // [1, undefined]
+f(2); // [2, undefined]
+
+```
+
+**Note:**  The first default parameter and all parameters after it will not contribute to the function's  [`length`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/length).
+
+The default parameter initializers live in their own scope, which is a parent of the scope created for the function body.
+
+
+# Arrow function expressions
+
+An arrow function expression is a compact alternative to a traditional function expression, with some semantic differences and deliberate limitations in usage:
+
+- Arrow functions don't have their own bindings to `this`, `arguments`, or `super`, and should not be used as methods.
+- Arrow functions cannot be used as constructors. Calling them with new throws a `TypeError`. They also don't have access to the `new.target` keyword.
+- Arrow functions cannot use `yield` within their body and cannot be created as `generator` functions.
+
+```js
+() => expression
+
+param => expression
+
+(param) => expression
+
+(param1, paramN) => expression
+
+() => {
+  statements
+}
+
+param => {
+  statements
+}
+
+(param1, paramN) => {
+  statements
+}
+
+```
+
+```js
+// Traditional anonymous function
+(function (a) {
+  return a + 100;
+});
+
+// 1. Remove the word "function" and place arrow between the argument and opening body brace
+(a) => {
+  return a + 100;
+};
+
+// 2. Remove the body braces and word "return" — the return is implied.
+(a) => a + 100;
+
+// 3. Remove the parameter parentheses
+a => a + 100;
+
+// Traditional anonymous function
+(function (a, b) {
+  return a + b + 100;
+});
+
+// Arrow function
+(a, b) => a + b + 100;
+
+const a = 4;
+const b = 2;
+
+// Traditional anonymous function (no parameters)
+(function () {
+  return a + b + 100;
+});
+
+// Arrow function (no parameters)
+() => a + b + 100;
+
+```
+
 # Function overloading in JS
 
 JavaScript does not support function overloading in the traditional sense, as you might find in languages like Java or C++. However, you can achieve similar behavior by using a variety of techniques. One common approach is to check the number and types of arguments within the function and then handle them accordingly. Here's an example:
@@ -340,3 +802,5 @@ Here are some key points about `this` in JavaScript:
     ```
 
 Understanding the value of `this` in different contexts is crucial for writing effective and bug-free JavaScript code. Keep in mind that the behavior of `this` can vary, so it's essential to be aware of the specific rules that apply in each situation.
+
+

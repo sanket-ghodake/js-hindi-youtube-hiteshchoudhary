@@ -342,3 +342,37 @@ console.log(result); // { a: 1, b: 2 }
 
 Keep in mind that `Object.assign` does not perform a deep copy. Nested objects are still referenced, and modifying them will affect both the source and target objects. If deep copying is required, additional techniques are needed, such as recursion or using libraries like `lodash` or the spread syntax with nested objects.
 
+# Array are passed by reference means - Modifying the contents of the array inside the function will affect the original array but - Reassigning the array variable inside the function will not affect the original array outside the function.
+
+In JavaScript, when you pass an array to a function, you are passing the reference to the array, not a copy of the array itself. This means that changes made to the array inside the function will affect the original array outside the function.
+
+Let's illustrate this with an example:
+
+```javascript
+function modifyArray(arr) {
+    arr.push(4); // Modifying the array by adding an element
+    arr = [10, 11, 12]; // Reassigning arr to a new array
+}
+
+const originalArray = [1, 2, 3];
+
+modifyArray(originalArray);
+
+console.log(originalArray);
+```
+
+In this example, the `modifyArray` function takes an array (`arr`) as a parameter. It first modifies the array by pushing an element (`4`) into it. Then, it reassigns `arr` to a completely new array `[10, 11, 12]`.
+
+Now, when you log `originalArray` after calling `modifyArray`, you will see that the original array is modified:
+
+```
+[1, 2, 3, 4]
+```
+
+However, the reassignment inside the function (`arr = [10, 11, 12]`) does not affect the original array outside the function. The original array still remains `[1, 2, 3]`.
+
+So, to summarize:
+
+- Arrays are passed by reference in JavaScript.
+- Modifying the contents of the array inside the function will affect the original array.
+- Reassigning the array variable inside the function will not affect the original array outside the function.
